@@ -1,2 +1,2 @@
 pass one year,study the git agine
-study create the git branch
+study show the code confilct the git branch
