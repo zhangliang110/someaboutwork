@@ -1,2 +1,3 @@
 pass one year,study the git agine
+<<<<<<< HEAD
 study confilct is this line the git branch
