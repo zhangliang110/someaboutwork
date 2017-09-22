@@ -1,0 +1,4 @@
+1. 本章主要介绍messagePack。
+		messagePack是一个高效的二进制序列化框架，他比json性能更快，码流更小
+		1.1 MessagePack 介绍，MessagePack编码器和解码器开发		粘包和拆包的支持
+		
