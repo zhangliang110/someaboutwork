@@ -1,0 +1,20 @@
+进行ChannelPipeline和ChannelHandler 的源码解析
+	Netty的ChannelPipeline 和 ChannelHandler 机制类似于 Servet 和 Filter过滤器，这类拦截器实际上是职责链模式的一种变形，主要是为了方便事件的拦截和用户业务逻辑的定制。
+	1.1 ChannelPipleline 是ChannelHandler的容器。它负责ChannelHandler的管理和事拦截与调度
+		Netty中的事件分为：inbound事件和outbound事件。inbound事件通常由I/O线程触发，例如：TCP链路建立事件，链路关闭事件，读事件，异常通知事件。
+											 outBound事件通常是用户主动发起的网络I/O操作，例如：用户发起的链接操作，绑定操作，消息发送操作。
+		ChannelPipeline是线程安全的，但是ChannelHandler不是线程安全的。	
+			当发生某个I/O事件的时候，例如：链路的建立，链路的关闭，读取操作完成等。都会产生一个事件，事件在pipeline中得到传播和处理。它是事件的总入口。
+				pipeline中的fireXXXX命名的方法都是从I/O线程流向用户业务的handler的inbound事件。
+				由用户线程或者代码发起的I/O操作被称为outbound事件,事实上inbound和outbound是Netty自身在pipeline中的流向抽象出来的术语，在其他NIO框架中没有这个概念。
+	1.2 ChannelHandler的功能说明
+		ChannelHandler类似于Servlet的Filter过滤器,负责对I/O事件或者I/O操作进行拦截和处理。它可以选择性的拦截和处理自己感兴趣的事件。
+			ChannelHandlerAdapter基类就是方便用户去继承并实现自己关心的方法避免代码臃肿。
+	1.3 ChannelHandler源码解析
+			ChannelHandler的分类：
+				ChannelPipeline的系统ChannelHandler,用于I/O操作和对事件的域处理，对于用户不可见，这类ChannelHandler主要包括HeadHandler和TailHandler
+				编解码ChannelHandler，包括ByteToMessageCodec等。
+				其他系统功能性ChannelHandler，包括流量整型Handler,读写超时handler，日志Handler等。
+			LengthFieldBasedFrameDecoder源码解析：最通用的基于消息长度的半包解码器
+			LengthFieldPrepender负责在待发送的ByteBuf消息头中增加一个长度字段来标识消息的长度，它简化了用户的编码器开发，使用户需要设置这个长度字段。	
+				

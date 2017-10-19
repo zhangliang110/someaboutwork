@@ -32,8 +32,7 @@ public class MsgpackDecoder extends MessageToMessageDecoder<ByteBuf> {
     protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> out) {
         try {
             final int length = buf.readableBytes();
-            final byte[] array;
-            array = new byte[length];
+            final byte[] array = new byte[length];
             buf.getBytes(buf.readerIndex(), array, 0, length);
             MessagePack pack = new MessagePack();
             out.add(pack.read(array));

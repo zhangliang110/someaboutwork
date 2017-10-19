@@ -1,0 +1,3 @@
+Future 和 Promise
+	对于Netty来说就是：ChannelFuture
+	Promise 是可写的Future,Future自身没有写操作相关的接口，Netty通过Promise对Future进行操作，用于设置I/O操作的结果。
