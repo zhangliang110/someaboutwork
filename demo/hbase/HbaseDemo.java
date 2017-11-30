@@ -8,7 +8,7 @@
  */
 package org.demo.hbase;
 
-import java.io.IOExceptionasd;
+import java.io.IOException;
 import java.util.stream.Stream;
 
 import org.apache.hadoop.conf.Configuration;
